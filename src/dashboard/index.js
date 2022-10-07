@@ -1,12 +1,14 @@
 import * as React from 'react';
-import {useCallback, useEffect, useState} from 'react';
+import {useCallback, useEffect, useRef, useState} from 'react';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Output from './Output';
-import {Autocomplete, Button, FormControlLabel, FormGroup, Switch, TextField} from '@mui/material';
+import {Button, CircularProgress, FormControlLabel, FormGroup, Switch, TextField} from '@mui/material';
+
 import {initializeApp} from '@CloudImpl-Inc/http-client-js/lib';
 
 const Dashboard = () => {
+  const authTokenRef = useRef('');
   const [tenantId, setTenantId] = useState('cloudimpl');
   const [baseUrl, setBaseUrl] = useState('http://localhost:8082');
   const [serviceName, setServiceName] = useState('');
@@ -20,10 +22,13 @@ const Dashboard = () => {
   const [resumeOnError, setResumeOnError] = useState(false);
   const [shouldForcePolling, setShouldForcePolling] = useState(false);
   const [pollingInterval, setPollingInterval] = useState();
-  const [authToken, setAuthToken] = useState();
+  const [authToken, setAuthToken] = useState('');
   const [completeUrl, setCompleteUrl] = useState('');
 
+  const [kPlatform, setKPlatform] = useState(null);
   const [subscription, setSubscription] = useState();
+
+  const [listening, setListening] = useState(false);
 
   const [response, setResponse] = useState([]);
   const [error, setError] = useState();
@@ -50,19 +55,31 @@ const Dashboard = () => {
       setFunctionNameList([functionName, ...functionNameList]);
     }
   };
-  const getClient = useCallback(() => {
-    const kPlatform = initializeApp({
+
+  const getAuth = useCallback(() => {
+    const refToken = authTokenRef.current;
+    const localStoreToken = localStorage.getItem('authToken');
+    return Promise.resolve(refToken);
+  }, [authToken]);
+
+  const initKplatform = useCallback(() => {
+    const kp = initializeApp({
       tenantId,
       baseUrl,
-      authToken: Promise.resolve(authToken),
+      getAuthTokenFn: () => Promise.resolve(localStorage.getItem('authToken')),
     });
+
+    setKPlatform(kp);
+  }, [authToken, baseUrl, getAuth, tenantId]);
+
+  const getClient = useCallback(() => {
     return kPlatform.getService(serviceName)?.version(version).routeKey(routerKey);
-  }, [authToken, baseUrl, routerKey, serviceName, tenantId, version]);
+  }, [kPlatform, routerKey, serviceName, version]);
 
   const execute = () => {
     cacheItems();
     const sub = getClient().execute(functionName, JSON.parse(payload));
-    sub.subscribe({
+    const s = sub.subscribe({
       next: res => {
         if (res.accessToken) {
           setAuthToken(res.accessToken);
@@ -75,6 +92,8 @@ const Dashboard = () => {
         setError(err);
       }
     });
+    setSubscription(s);
+
   };
 
   const startListen = () => {
@@ -84,8 +103,9 @@ const Dashboard = () => {
     if (pollingInterval) {
       config.pollingInterval = pollingInterval;
     }
+    setListening(true);
     const sub = getClient().listen(functionName, JSON.parse(payload), config);
-    const subscription = sub.subscribe({
+    const s = sub.subscribe({
       next: res => {
         console.log(res, response);
         setResponse(old => [res, ...old]);
@@ -95,12 +115,14 @@ const Dashboard = () => {
         setError(err);
       }
     });
-    setSubscription(subscription);
+    setSubscription(s);
   };
 
   const onStop = () => {
     console.log('unsubscribed', subscription);
     subscription.unsubscribe();
+    setSubscription(null);
+    setListening(false);
   };
 
   return <Box sx={{flexGrow: 1}}>
@@ -115,8 +137,14 @@ const Dashboard = () => {
                      value={baseUrl || ''} onChange={e => setBaseUrl(e.target.value?.trim())}/>
         </div>
         <div style={{display: 'flex',}}>
-          <TextField fullWidth size="small" sx={{mb: 5}} id="outlined-basic" label="Access Token" variant="outlined"
-                     value={authToken || ''} onChange={e => setAuthToken(e.target.value?.trim())}/>
+          <TextField
+            fullWidth size="small" sx={{mb: 5}} id="outlined-basic" label="Access Token" variant="outlined"
+            value={authTokenRef.current || ''} onChange={e => {
+            const value = e.target.value?.trim();
+            localStorage.setItem('authToken', value);
+            authTokenRef.current = value;
+            setAuthToken(value);
+          }}/>
         </div>
 
         <div style={{display: 'flex',}}>
@@ -131,7 +159,7 @@ const Dashboard = () => {
 
         <div style={{display: 'flex',}}>
           <TextField
-            key='asdf111'
+            key="asdf111"
             sx={{width: '100%', mr: 1, mb: 5,}}
             label="Service Name"
             variant="outlined"
@@ -140,7 +168,7 @@ const Dashboard = () => {
           />
 
           <TextField
-            key='asdf1112'
+            key="asdf1112"
             sx={{width: '100%', mr: 1, mb: 5,}} id="outlined-basic"
             label="Version"
             variant="outlined"
@@ -148,7 +176,7 @@ const Dashboard = () => {
 
 
           <TextField
-            key='asdf11341'
+            key="asdf11341"
             sx={{width: '100%', mr: 1, mb: 5,}}
             label="Router Key"
             variant="outlined"
@@ -157,7 +185,7 @@ const Dashboard = () => {
           />
 
           <TextField
-            key='asdf142311'
+            key="asdf142311"
             sx={{width: '100%', mr: 1, mb: 5,}}
             label="Function Name"
             variant="outlined"
@@ -168,30 +196,39 @@ const Dashboard = () => {
 
         </div>
         <div style={{display: 'flex',}}>
-          <TextField sx={{mr: 1}} multiline fullWidth label="JSON Payload" variant="outlined" value={payload || ''}
-                     onChange={e => setPayload(e.target.value?.trim())}/>
+          <TextField
+            sx={{mr: 1}} multiline fullWidth label="JSON Payload" variant="outlined" value={payload || ''}
+            onChange={e => setPayload(e.target.value?.trim())}/>
         </div>
         <div style={{display: 'flex',}}>
           <FormGroup sx={{mr: 1, mb: 5}}>
-            <FormControlLabel control={<Switch value={resumeOnError}/>} onChange={e => setResumeOnError(e.target.value)}
-                              label="resumeOnError"/>
-            <FormControlLabel control={<Switch value={shouldForcePolling}/>}
-                              onChange={e => setShouldForcePolling(e.target.value)} label="shouldForcePolling"/>
-            <TextField sx={{mr: 1}} label="Polling Interval" variant="outlined" value={pollingInterval || ''}
-                       onChange={e => setPollingInterval(e.target.value)}/>
+            <FormControlLabel
+              control={<Switch value={resumeOnError}/>} onChange={e => setResumeOnError(e.target.value)}
+              label="resumeOnError"/>
+            <FormControlLabel
+              control={<Switch value={shouldForcePolling}/>}
+              onChange={e => setShouldForcePolling(e.target.value)} label="shouldForcePolling"/>
+            <TextField
+              sx={{mr: 1}} label="Polling Interval" variant="outlined" value={pollingInterval || ''}
+              onChange={e => setPollingInterval(e.target.value)}/>
           </FormGroup>
         </div>
         <div style={{display: 'flex', marginBottom: '10px'}}>
-          <Button sx={{mr: 1}} variant="contained" color="info" onClick={execute}>
+          <Button sx={{mr: 1}} variant="contained" color="error" onClick={initKplatform}>
+            Init kPlatform
+          </Button>
+        </div>
+        <div style={{display: 'flex', marginBottom: '10px'}}>
+          <Button disabled={!kPlatform} sx={{mr: 1}} variant="contained" color="info" onClick={execute}>
             Execute
           </Button>
         </div>
         <div style={{display: 'flex',}}>
 
-          <Button sx={{mr: 1}} variant="contained" color="success" onClick={startListen}>
-            Listen
+          <Button disabled={!kPlatform} sx={{mr: 1}} variant="contained" color="success" onClick={startListen}>
+            Listen {listening && <CircularProgress size={20} sx={{marginLeft: '10px'}}/>}
           </Button>
-          <Button variant="contained" color="secondary" onClick={onStop}>
+          <Button disabled={!subscription} variant="contained" color="secondary" onClick={onStop}>
             Stop
           </Button>
         </div>
