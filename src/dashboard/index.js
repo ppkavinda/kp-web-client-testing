@@ -25,7 +25,7 @@ const Dashboard = () => {
 
   const [subscription, setSubscription] = useState();
 
-  const [response, setResponse] = useState();
+  const [response, setResponse] = useState([]);
   const [error, setError] = useState();
 
   useEffect(() => {
@@ -63,12 +63,12 @@ const Dashboard = () => {
     cacheItems();
     const sub = getClient().execute(functionName, JSON.parse(payload));
     sub.subscribe({
-      next: response => {
-        if (response.accessToken) {
-          setAuthToken(response.accessToken);
+      next: res => {
+        if (res.accessToken) {
+          setAuthToken(res.accessToken);
         }
-        console.log(response);
-        setResponse(response);
+        console.log(res);
+        setResponse([res]);
       },
       error: err => {
         console.log('error', err);
@@ -85,22 +85,22 @@ const Dashboard = () => {
       config.pollingInterval = pollingInterval;
     }
     const sub = getClient().listen(functionName, JSON.parse(payload), config);
-    setSubscription(sub);
-    sub.subscribe({
-      next: response => {
-        console.log(response);
-        setResponse(response);
+    const subscription = sub.subscribe({
+      next: res => {
+        console.log(res, response);
+        setResponse(old => [res, ...old]);
       },
       error: err => {
         console.log('error', err);
         setError(err);
       }
     });
+    setSubscription(subscription);
   };
 
   const onStop = () => {
-    subscription.unsubscribe();
     console.log('unsubscribed', subscription);
+    subscription.unsubscribe();
   };
 
   return <Box sx={{flexGrow: 1}}>
