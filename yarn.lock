@@ -2,15 +2,16 @@
 # yarn lockfile v1
 
 
-"@CloudImpl-Inc/http-client-js@^1.0.20":
-  version "1.0.20"
-  resolved "https://npm.pkg.github.com/download/@CloudImpl-Inc/http-client-js/1.0.20/caac5cb3325d9826c284211d8deacab680ce6331"
-  integrity sha512-xm/MO1HvPwwnlnvpLXpkfp/nKKmK7zeX91afBUFNv2+noOLclnkREoPmH/zNt1r7LHEHwJGW/vPq7L2DReMaGg==
+"@CloudImpl-Inc/http-client-js@^1.0.29":
+  version "1.0.29"
+  resolved "https://npm.pkg.github.com/download/@CloudImpl-Inc/http-client-js/1.0.29/aa5da5cd673ed9905172c1ca05d17bf0a6c9ad76#aa5da5cd673ed9905172c1ca05d17bf0a6c9ad76"
+  integrity sha512-cz7tMvJuOgfM63n6RGPw1jEHWjt9q6iFlzGRi39D98CIgux+Af0sMjmDruF5txMkRUGqtfLXTzdpWo8U9WasNA==
   dependencies:
     axios "^0.27.2"
     backoff-rxjs "^7.0.0"
     lodash "^4.17.21"
     rxjs "^7.3.0"
+    sse.js "^0.6.1"
 
 "@adobe/css-tools@^4.0.1":
   version "4.0.1"
@@ -8225,6 +8226,11 @@ sprintf-js@~1.0.2:
   version "1.0.3"
   resolved "https://registry.npmjs.org/sprintf-js/-/sprintf-js-1.0.3.tgz"
   integrity sha512-D9cPgkvLlV3t3IzL0D0YLvGA9Ahk4PcvVwUbN0dSGr1aP0Nrt4AEnTUbuGvquEC0mA64Gqt1fzirlRs5ibXx8g==
+
+sse.js@^0.6.1:
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/sse.js/-/sse.js-0.6.1.tgz#1de304f51a5b870e78c0ad72c3b1d7b682a733a1"
+  integrity sha512-peXG6GnWqF5hnubhMw0WfB6rqQy7z7LaMBT067vqgQwC3gKz8JGFzexBSV80FqZ9JoUDwo3Xt5nxkrGrgbPrtA==
 
 stable@^0.1.8:
   version "0.1.8"

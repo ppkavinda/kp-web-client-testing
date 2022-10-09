@@ -67,6 +67,7 @@ const Dashboard = () => {
       tenantId,
       baseUrl,
       getAuthTokenFn: () => Promise.resolve(localStorage.getItem('authToken')),
+      enableLogging: true,
     });
 
     setKPlatform(kp);
