@@ -2,14 +2,15 @@
 # yarn lockfile v1
 
 
-"@CloudImpl-Inc/http-client-js@^1.0.29":
-  version "1.0.29"
-  resolved "https://npm.pkg.github.com/download/@CloudImpl-Inc/http-client-js/1.0.29/aa5da5cd673ed9905172c1ca05d17bf0a6c9ad76#aa5da5cd673ed9905172c1ca05d17bf0a6c9ad76"
-  integrity sha512-cz7tMvJuOgfM63n6RGPw1jEHWjt9q6iFlzGRi39D98CIgux+Af0sMjmDruF5txMkRUGqtfLXTzdpWo8U9WasNA==
+"@CloudImpl-Inc/http-client-js@^1.0.33":
+  version "1.0.33"
+  resolved "https://npm.pkg.github.com/download/@CloudImpl-Inc/http-client-js/1.0.33/325cef81b7cb95a86c75524baa8f05cdf06327e2#325cef81b7cb95a86c75524baa8f05cdf06327e2"
+  integrity sha512-3+5Nx7ZLEVuAVx6YMNw8p459o7Su9wNHG4uARv0uAbKV9ZuNPKNZ28Jq+MdgkO2mabtMe79zUAAhjUIpAc8Z/Q==
   dependencies:
     axios "^0.27.2"
     backoff-rxjs "^7.0.0"
     lodash "^4.17.21"
+    react-native-sse "^1.1.0"
     rxjs "^7.3.0"
     sse.js "^0.6.1"
 
@@ -4732,7 +4733,7 @@ fs.realpath@^1.0.0:
 
 fsevents@^2.3.2, fsevents@~2.3.2:
   version "2.3.2"
-  resolved "https://registry.yarnpkg.com/fsevents/-/fsevents-2.3.2.tgz#8a526f78b8fdf4623b709e0b975c52c24c02fd1a"
+  resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.2.tgz"
   integrity sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==
 
 function-bind@^1.1.1:
@@ -7582,6 +7583,11 @@ react-is@^18.0.0, react-is@^18.2.0:
   resolved "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
+react-native-sse@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/react-native-sse/-/react-native-sse-1.1.0.tgz"
+  integrity sha512-qPhZwuVg7ry0Cw8Q2+0VH90on223obZcfB5a/2ktoD3951zWx7HXAtrqQtDfLGjv7ncSJoswd+efn2k0uoR5lw==
+
 react-refresh@^0.11.0:
   version "0.11.0"
   resolved "https://registry.npmjs.org/react-refresh/-/react-refresh-0.11.0.tgz"
@@ -8229,7 +8235,7 @@ sprintf-js@~1.0.2:
 
 sse.js@^0.6.1:
   version "0.6.1"
-  resolved "https://registry.yarnpkg.com/sse.js/-/sse.js-0.6.1.tgz#1de304f51a5b870e78c0ad72c3b1d7b682a733a1"
+  resolved "https://registry.npmjs.org/sse.js/-/sse.js-0.6.1.tgz"
   integrity sha512-peXG6GnWqF5hnubhMw0WfB6rqQy7z7LaMBT067vqgQwC3gKz8JGFzexBSV80FqZ9JoUDwo3Xt5nxkrGrgbPrtA==
 
 stable@^0.1.8:

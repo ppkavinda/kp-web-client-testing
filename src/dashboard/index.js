@@ -106,9 +106,9 @@ const Dashboard = () => {
     }
     setListening(true);
     const sub = getClient().listen(functionName, JSON.parse(payload), config);
-    const s = sub.subscribe({
+    sub.subscribe({
       next: res => {
-        console.log(res, response);
+        console.log('response: ', response);
         setResponse(old => [res, ...old]);
       },
       error: err => {
@@ -116,7 +116,7 @@ const Dashboard = () => {
         setError(err);
       }
     });
-    setSubscription(s);
+    setSubscription(sub);
   };
 
   const onStop = () => {
