@@ -2,15 +2,15 @@
 # yarn lockfile v1
 
 
-"@CloudImpl-Inc/http-client-js@^1.0.33":
-  version "1.0.33"
-  resolved "https://npm.pkg.github.com/download/@CloudImpl-Inc/http-client-js/1.0.33/325cef81b7cb95a86c75524baa8f05cdf06327e2#325cef81b7cb95a86c75524baa8f05cdf06327e2"
-  integrity sha512-3+5Nx7ZLEVuAVx6YMNw8p459o7Su9wNHG4uARv0uAbKV9ZuNPKNZ28Jq+MdgkO2mabtMe79zUAAhjUIpAc8Z/Q==
+"@CloudImpl-Inc/http-client-js@^1.0.36":
+  version "1.0.36"
+  resolved "https://npm.pkg.github.com/download/@CloudImpl-Inc/http-client-js/1.0.36/c7f66b995251becfbf8fc10a56a461e679b8d6b2#c7f66b995251becfbf8fc10a56a461e679b8d6b2"
+  integrity sha512-XSjZg/C+3ZHNCEvcK6Md/+vNS1/MbMkMvUGFUl1ZIklXFN3p+V8H+EWzyLe1KgU51qd4WBJhySHBc/BzPxB55g==
   dependencies:
+    "@microsoft/fetch-event-source" "^2.0.1"
     axios "^0.27.2"
     backoff-rxjs "^7.0.0"
     lodash "^4.17.21"
-    react-native-sse "^1.1.0"
     rxjs "^7.3.0"
     sse.js "^0.6.1"
 
@@ -1656,6 +1656,11 @@
   version "2.0.4"
   resolved "https://registry.npmjs.org/@leichtgewicht/ip-codec/-/ip-codec-2.0.4.tgz"
   integrity sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==
+
+"@microsoft/fetch-event-source@^2.0.1":
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/@microsoft/fetch-event-source/-/fetch-event-source-2.0.1.tgz#9ceecc94b49fbaa15666e38ae8587f64acce007d"
+  integrity sha512-W6CLUJ2eBMw3Rec70qrsEW0jOm/3twwJv21mrmj2yORiaVmVYGS4sSS5yUwvQc1ZlDLYGPnClVWmUUMagKNsfA==
 
 "@mui/base@5.0.0-alpha.100":
   version "5.0.0-alpha.100"
@@ -7582,11 +7587,6 @@ react-is@^18.0.0, react-is@^18.2.0:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
-
-react-native-sse@^1.1.0:
-  version "1.1.0"
-  resolved "https://registry.npmjs.org/react-native-sse/-/react-native-sse-1.1.0.tgz"
-  integrity sha512-qPhZwuVg7ry0Cw8Q2+0VH90on223obZcfB5a/2ktoD3951zWx7HXAtrqQtDfLGjv7ncSJoswd+efn2k0uoR5lw==
 
 react-refresh@^0.11.0:
   version "0.11.0"
